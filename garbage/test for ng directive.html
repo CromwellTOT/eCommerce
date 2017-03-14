@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test for ng directive</title>
+	<script src="js/angular.min.js"></script>
+
+	<script type="text/javascript">
+		var app = angular.module("mainApp", []);
+		app.controller("mainCtrl", ["$scope", function($scope) {
+
+		}]);
+		app.directive("navRightBar", ["$compile", function($compile) {
+			var templateList = ["<div>{{nickName}}</div>", "<div>login</div>"];
+			return {
+				restrictive: "e",
+				template: templateList[1],
+				link: function(scope, elem, attr) {
+					console.log(elem);
+					//scope.rootDirectory = 'images/';
+					scope.$watch("nickName", function(val) {
+						if(val !== "undefined"){
+							console.log(val);
+							elem.html(templateList[0]);
+							$compile(elem.contents())(scope);
+						} else {
+							elem.html(templateList[1]);
+							$compile(elem.contents())(scope);
+						}					
+					});
+
+				    
+
+					//console.log(scope);
+					//console.log(elem);
+					//console.log(attr);
+				}
+			}
+		}]);
+	</script>
+</head>
+<body ng-app="mainApp">
+<div ng-controller="mainCtrl">
+	<input ng-model="nickName" type="text">
+	<nav-right-bar></nav-right-bar>
+</div>
+
+</body>
+</html>

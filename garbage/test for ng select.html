@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test for ng select</title>
+	<script src="js/angular.min.js"></script>
+	<script src="js/angular-local-storage.min.js"></script>
+	<script type="text/javascript">
+		var app = angular.module("mainApp", ["LocalStorageModule"]);
+		app.controller("mainCtrl", ["$scope", "localStorageService", function($scope, localStorageService) {
+			//console.log(localStorageService.get("userData").configuration);
+			$scope.configuration = {
+				model: localStorageService.get("userData").configuration,
+				availableOptions: [
+					{id: '5', name: '5 days'},
+					{id: '10', name: '10 days'},
+					{id: '15', name: '1/2 months'},
+					{id: '30', name: '1 month'},
+					{id: '90', name: '3 months'}
+			    ]
+			}
+
+			$scope.configuration.model = '5';
+			
+			
+			$scope.$watch("configuration.model", function(newVal) {
+				console.log(newVal);
+			})
+		}]);
+	</script>
+</head>
+<body ng-app="mainApp">
+<div ng-controller="mainCtrl">
+	<label> select: </label>
+	<select ng-model='configuration.model' ng-options="option.id as (option.name) for option in configuration.availableOptions" />
+	<button ng-click='configuration.model = 5'>change to 474</button>
+</div>
+</body>
+</html>

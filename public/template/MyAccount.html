@@ -1,0 +1,114 @@
+<div class="container">
+	<!-- header -->
+	<h1>{{user.nickName}}'s personal center</h1>
+	<hr>
+
+	<!-- Access Details-->
+	<h2 data-id="security" ng-click="toggle($event)">Access Details<span class="caret pull-right"></span></h2>
+	<div class="security row userContainer">
+		<div class="col-sm-5">
+			<form class="form-horizontal">
+				<div class="form-group row">
+					<label class="col-sm-4 control-label">Current Email*</label>
+					<div class="col-sm-6">
+						<input class="form-control" type="email" ng-model="user.email">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-4 control-label">New Email*</label>
+					<div class="col-sm-6">
+						<input class="form-control" type="email" placeholder="New Email Address">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-4 control-label">Confirm Email*</label>
+					<div class="col-sm-6">
+						<input class="form-control" type="email" placeholder="Confirm New Email Address">
+					</div>
+				</div>
+				<div class="text-center"><button class="btn btn-primary" ng-click="updateUserEmail($event)" disabled>Change</button></div>
+			</form>
+		</div>
+		<div class="col-sm-6 col-sm-offset-1">
+			<form class="form-horizontal">
+				<div class="form-group row">
+					<label class="col-sm-4 control-label">Current Password*</label>
+					<div class="col-sm-6">
+						<input class="form-control" type="Password" ng-model="user.password">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-4 control-label">New Password*</label>
+						<div class="col-sm-6">
+						<input class="form-control" type="text" placeholder="New Password">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-4 control-label">Confirm Password*</label>
+						<div class="col-sm-6">
+						<input class="form-control" type="text" placeholder="Confirm New Password">
+					</div>
+				</div>
+				<div class="text-center"><button class="btn btn-primary" ng-click="updateUserPassword($event)">Change</button></div>
+			</form>
+		</div>
+	</div>
+	<hr>
+
+	<!-- information-->
+	<h2 data-id="info" ng-click="toggle($event)">Info<span class="caret pull-right"></span></h2>
+	<div class="info userContainer">		
+		<form class="form-horizontal">
+			<div class="form-group row">
+				<label class="col-sm-4 control-label">New Nick Name?</label>
+					<div class="col-sm-4">
+					<input class="form-control" type="text">
+				</div>
+			</div>
+			<div class="text-center"><button class="btn btn-primary" ng-click="updateUserInfo($event)">Update</button></div>
+		</form>
+	</div>
+	<hr>
+
+	<!-- Configuration-->
+	<h2 data-id="configuration" ng-click="toggle($event)">Configuration<span class="caret pull-right"></span></h2>
+	<div class="configuration userContainer">
+		<form class="form-horizontal">
+			<div class="form-group row">
+				<label class="col-sm-2 control-label">New Arrival Options</label>
+				<div class="col-sm-offset-1 col-sm-6">
+				    <select class="form-control" ng-model='user.configuration' 
+				    ng-options="option.id as (option.name) for option in availableOptions" />
+				</div>
+			</div>
+		</form>	
+	</div>
+	<hr>
+
+	<!-- NewsLetter-->
+	<h2 data-id="newsLetter" ng-click="toggle($event)">NewsLetter<span class="caret pull-right"></span></h2>
+	<div class="newsLetter userContainer">
+		<form class="form-horizontal">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" value="">
+					Bangles
+				</label>
+			</div>
+			<div class="checkbox disabled">
+				<label>
+					<input type="checkbox" value="" disabled>
+					Pearls
+				</label>
+			</div>
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" value="">
+					Tassels
+				</label>
+			</div>
+			<br>
+			<button class="btn btn-primary" onclick="alert('Subscribed')">Subscribe</button>
+		</form>	
+	</div>
+</div>

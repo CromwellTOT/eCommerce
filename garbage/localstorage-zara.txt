@@ -1,0 +1,44 @@
+current-user-shopcart-info:
+@!xticcsep*!1485875178805!xticcsep*!1!xticcsep*!
+{"count":1,
+"numViewItems":3,
+"totalItems":1,
+"userData":{
+	"userName":"Frank",
+	"kind":"persistent",
+	"logonId":"zztttot4@gmail.com"
+},
+"moreElementsNum":0,
+"items":[
+	{
+		"seo":{"keyword":"man/new-in/"},
+		"id":4340047,
+		"orderItemId":1175407294,
+		"sku":4339317,
+		"quantity":1,
+		"price":3990,
+		"img":{
+			"datatype":"xmedia",
+			"set":2,"type":"image",
+			"kind":"full",
+			"path":"/2017/V/0/2/p/4248/425/250/2",
+			"name":"4248425250_1_1_1",
+			"width":2479,"height":3072,"timestamp":"1485437710509"},
+		"name":"PIPED SHIRT",
+		"kind":"Other",
+		"categoryId":813012
+}
+],
+"sortedItems":[
+	{
+	"seo":{"keyword":"man/new-in/"},
+	"id":4340047,
+	"orderItemId":1175407294,
+	"sku":4339317,
+	"quantity":1,
+	"price":3990,
+	"img":{"datatype":"xmedia","set":2,"type":"image","kind":"full","path":"/2017/V/0/2/p/4248/425/250/2","name":"4248425250_1_1_1","width":2479,"height":3072,"timestamp":"1485437710509"},
+	"name":"PIPED SHIRT",
+	"kind":"Other",
+	"categoryId":813012}
+]}

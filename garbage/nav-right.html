@@ -1,0 +1,13 @@
+<ul class="nav navbar-nav navbar-right">
+	<!-- Hello -->
+	<li id="hello"><a href="" ng-click="logintoloadmoreproduct()">Hello Guest, Login</a></li>
+	<!-- shopping cart -->
+	<li ng-mouseover="showDropdownMenu()" ng-mouseleave="hideDropdownMenu()">
+		<a href="cart">Cart({{cart.length}})</a>
+		<ul class="dropdown-menu cart-dropdown-menu">
+			<li ng-repeat="item in cart">{{item.name}}</li>
+		</ul>
+	</li>
+	<!-- Login -->
+	<li><a data-id="MyAccount" href="" ng-click="logintoloadmoreproduct($event)">My Account</a></li>
+</ul>

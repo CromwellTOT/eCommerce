@@ -1,0 +1,42 @@
+<div class="container">
+	<h1>Shopping Cart</h1>
+	<hr>
+	<div id="cartTable">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Item</th>
+					<th>Description</th>
+					<th>Units</th>
+					<th>Amount</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in cart">
+					<td><img ng-src="images/collections/thumbnail/{{item.name}}.png"></td>
+					<td>
+						<span>{{item.name}}</span>
+					</td>
+					<td>
+						<div class="row">
+							<div class="input-group">
+							  	<input watcher style="width: 80px;" type="number" class="form-control" ng-model="item.number" min=1>
+							</div>
+						</div>
+					</td>
+					<td>
+						<span>{{item.price | currency:"$ "}}</span>
+					</td>
+					<td><a href="" ng-click="doDelete($index)">&times;</a></td>
+				</tr>
+			</tbody>
+		</table>
+		<hr>
+		<div class="pull-right">Total: {{getTotalValue() | currency}}</div>
+	</div>
+	<hr style="margin-top: 40px;">
+	
+	<a href="#/home" class="btn btn-info">Continue Shopping</a>
+	<a id="checkOut" href="#/home" class="btn btn-primary pull-right">Check Out</a>
+</div>

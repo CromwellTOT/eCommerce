@@ -1,0 +1,36 @@
+<div>
+	<!-- routing bar -->
+	<div class="collections-gap-bar"></div>
+	<hr>
+	<!-- filter bar -->
+	<div class="form-inline">
+		<div class="form-group">
+			<label>Sort By: </label>
+			<button class="btn btn-info" ng-click="sortBy('price')">Price</button>
+			<button class="btn btn-info" ng-click="sortBy('arrivalTime')">New Arrival</button>
+			
+		</div>
+		<!-- Price filter -->
+		<div class="form-group">
+			<label>Display by Price: </label>
+			<input type="number" class="form-control" style="width: 100px;" ng-model="min">
+			<input type="number" class="form-control" style="width: 100px;" ng-model="max">
+		</div>
+		<div  class="form-group pull-right" style="padding-right: 20px; font-size: 20px;">
+			<span>Total items: <span style="font-weight: bold;">{{results.length}}</span></span>
+		</div>
+	</div>
+	<hr>
+	<!-- item list -->
+	<div ng-repeat="item in items | orderBy:propertyName:reverse | myFilter:min:max as results" class="col-sm-3" style="padding-top: 20px;">
+		<div class="animate-repeat">
+			<div><img class="img-responsive pointer" ng-src="images/collections/thumbnail/{{item.name}}.png" ng-click="preview($event)"></div>
+			<div class="text-center"><a href="" ng-click="findRightPath($event)">{{item.name}}</a></div>
+			<div class="text-center">$ {{item.price}}</div>
+			<div class="text-center"><button ng-click="addToCart($event)" class="btn btn-primary">Add to Cart</button></div>
+		</div class="animate-repeat">		
+	</div>
+	<div ng-if="results.length == 0">
+      	<h1 style="color: tomato">No results found...</h1>
+    </div>
+</div>
