@@ -1,6 +1,11 @@
-# MEAN stack eCommerce website
-# using angular framework  
+README
+======
 
-# to start the server
+# MEAN stack eCommerce website 
+
+to start the server
+------
+
 -> cd into the project folder
+
 -> node server
