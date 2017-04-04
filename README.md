@@ -1,6 +1,10 @@
 # MEAN stack eCommerce website
-# using angular framework  
+======
+### to start the server
+------
 
-# to start the server
--> cd into the project folder
--> node server
+
+```{r, engine='bash', count_lines}
+cd into the project folder
+node server
+```
