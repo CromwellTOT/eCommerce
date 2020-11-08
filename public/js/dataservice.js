@@ -43,11 +43,6 @@
 				$http.get("/rest/item/search/" + searchCriteria).then(function(resp) {
 					defer.resolve(resp.data);
 				});
-				/*
-				$http.get("/rest/item/search/" + searchCriteria).then(function(resp) {
-					defer.resolve(resp.data);
-				});
-				*/
 				return defer.promise;
 			},
 			//user

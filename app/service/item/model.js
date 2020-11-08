@@ -1,0 +1,11 @@
+const mongoose = require('mongoose');
+
+const itemSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  category: { type: Enum, required: true },
+  price: { type: Number, required: true },
+});
+
+const itemModel = mongoose.model('Product', itemSchema);
+
+module.exports = itemModel;
