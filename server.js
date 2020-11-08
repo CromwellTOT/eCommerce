@@ -4,6 +4,7 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser');
 
 const itemService = require("./app/service/item/route");
 const userService = require("./app/service/user/route");
@@ -20,6 +21,7 @@ mongoose
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use("/rest/item/", itemService);
 app.use("/rest/user/", userService);
 app.use('/rest/cart/', cartService);

@@ -29,7 +29,9 @@ function generateTokenAndStoreInCookie(res, user) {
 
 	const token = jwt.sign({
 			_id: user._id,
+			name: user.name,
 			email: user.email,
+			userType: user.userType
 	    }, 
 	    'tobestoredinconfigfileinsteadofhere!!!', 
 	    {

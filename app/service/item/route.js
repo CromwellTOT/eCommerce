@@ -1,6 +1,6 @@
 const express = require("express");
 const Item = require('./model');
-const 
+const isAuthorized = require('../../access-control/authorize');
 
 const router = express.Router();
 
@@ -10,8 +10,12 @@ router.get('/', async (req, resp) => {
 });
 
 // create a new item
-router.post('/', async (req, resp) => {
-
+router.post('/', isAuthorized, async (req, resp) => {
+	const item = new Item({
+		name: req.body.name,
+		 category: req.body.category,
+		 price: req.body.price,
+	})
 });
 
 module.exports = router;
