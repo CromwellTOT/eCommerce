@@ -5,6 +5,7 @@ const express = require("express");
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const cookieParser = require('cookie-parser');
+const config = require('./config');
 
 const itemService = require("./app/service/item/route");
 const userService = require("./app/service/user/route");
@@ -12,7 +13,7 @@ const cartService = require("./app/service/cart/route");
 const authService = require("./app/access-control/authenticate");
 
 mongoose
-  .connect('mongodb://localhost:27017/jewelryfifthavenue', {
+  .connect(config.mongodb_url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -34,5 +35,5 @@ app.get("/", function(req, resp) {
 });
 
 // started
-app.listen(4444);
+app.listen(config.port);
 console.log("server started");

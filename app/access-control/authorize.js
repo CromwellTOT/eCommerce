@@ -1,4 +1,6 @@
 const jwt = require('jsonwebtoken');
+const config = require('../../config');
+
 // todo: store this in DB
 const permissionsByUserType = {
 	'admin': {
@@ -21,7 +23,7 @@ const isAuthorized = async (req, resp, next) => {
 			resp.status(401).send({ error_message: 'Authentication failed - not logged in', });
 		}
 
-		const decrypt = await jwt.verify(token, 'tobestoredinconfigfileinsteadofhere!!!');
+		const decrypt = await jwt.verify(token, config.jwt_secret);
 
 		if (hasPermission(decrypt, req.baseUrl, req.method)) {
 			req.user = {

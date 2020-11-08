@@ -1,8 +1,10 @@
 const express = require("express");
 const User = require('../service/user/model');
 const jwt = require('jsonwebtoken');
+const config = require('../../config');
 
 const router = express.Router();
+
 
 router.post("/", async (req, resp) => {
 	const user = await User.findOne({
@@ -33,7 +35,7 @@ function generateTokenAndStoreInCookie(res, user) {
 			email: user.email,
 			userType: user.userType
 	    }, 
-	    'tobestoredinconfigfileinsteadofhere!!!', 
+	    config.jwt_secret, 
 	    {
 			expiresIn: '48h',
 		}
