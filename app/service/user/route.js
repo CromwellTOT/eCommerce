@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
+
 const User = require('./model');
+const isAuthorized = require('../../access-control/authorize');
+
 
 // get user info by id
 router.get("/:id", async (req, resp) => {
@@ -14,7 +17,9 @@ router.post("/", async (req, resp) => {
 		email: req.body.email,
 		password: req.body.password,
 	});
+
 	const newUser = await user.save();
+
 	if (newUser) {
 		resp.send({
 			_id: newUser.id,

@@ -4,7 +4,7 @@ const config = require('../../config');
 // todo: store this in DB
 const permissionsByUserType = {
 	'admin': {
-		'/rest/item-POST': true
+		'/rest/item-POST': true,
 	},
 	'client': {
 		
@@ -43,7 +43,7 @@ function hasPermission (user, path, method) {
 	const permissions = permissionsByUserType[user.userType];
 
 	console.log(`
-		user: ${user.name}; type: ${user.userType} requsts authorization for ${path}
+		user: ${user.name}, type: ${user.userType} requsts authorization for path: ${path}, method: ${method}
 	`);
 	// permission is defined by `<path>-<method>``
 	const requestForPermissoin = path + '-' + method;

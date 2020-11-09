@@ -1,6 +1,8 @@
-// brew services start mongodb-community@4.4
-// brew services stop mongodb-community@4.4
-// API Gateway
+/* 
+	brew services start mongodb-community@4.4
+	brew services stop mongodb-community@4.4
+	API Gateway
+	*/
 const express = require("express");
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
