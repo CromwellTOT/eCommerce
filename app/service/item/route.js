@@ -18,7 +18,7 @@ router.get('/', async (req, resp) => {
 
     const items = await Item.find({ ...category, ...search });
 
-    resp.send(items);
+    return resp.send(items);
 });
 
 // get one by id
@@ -26,9 +26,9 @@ router.get('/:id', async (req, resp) => {
 	const item = await Item.findOne({ _id: req.params.id });
 
 	if (item) {
-		resp.send(item);
+		return resp.send(item);
 	} else {
-		resp.status(404).send({ error_message: 'Item Not Found.' });
+		return resp.status(404).send({ error_message: 'Item Not Found.' });
 	}
 });
 
