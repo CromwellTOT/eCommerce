@@ -18,7 +18,7 @@ router.get('/', async (req, resp) => {
 
     const items = await Item.find({ ...category, ...search });
 
-    return resp.send(items);
+    resp.send(items);
 });
 
 // get one by id
@@ -29,11 +29,13 @@ router.get('/:id', async (req, resp) => {
 		return resp.status(404).send({ error_message: 'Item Not Found.' });
 	}
 
-	return resp.send(item);
+	resp.send(item);
 });
 
 // create a new item
 router.post('/', isAuthorized, async (req, resp) => {
+	// @todo validation
+
 	const item = new Item({
 		name: req.body.name,
 		category: req.body.category,
@@ -44,38 +46,39 @@ router.post('/', isAuthorized, async (req, resp) => {
 	try {
 		newItem = await item.save();
 	} catch (e) {
-		return resp.status(500).send({ error_message: 'Error in Creating Item.' });
+		return resp.status(400).send({ error_message: 'Error in Creating Item.' });
 	}
 
 	if (!newItem) {
 		return resp.status(500).send({ error_message: 'Error in Creating Item.' });
-		
 	}
 
-	return resp.status(201).send({ data: newItem });
+	resp.status(201).send({ data: newItem });
 });
 
 router.put('/:id', isAuthorized, async (req, resp) => {
 	try {
+		// @todo: validation
+
 		const item = await Item.findById(req.params.id);
-	
-		// todo: validation
 
-		if (item) {
-			item.name = req.body.name;
-			item.category = req.body.category;
-			item.price = req.body.price;
-
-			const updatedItem = await item.save();
-
-			if (!updatedItem) {
-				return resp.status(500).send({ error_message: 'Error in Updating Item.' });
-			}
-
-			return resp.send({ data: updatedItem });
+		if (!item) {
+			return resp.status(404).send({ error_message: 'Item not found' });
 		}
+
+		item.name = req.body.name;
+		item.category = req.body.category;
+		item.price = req.body.price;
+
+		const updatedItem = await item.save();
+
+		if (!updatedItem) {
+			return resp.status(500).send({ error_message: 'Error in Updating Item.' });
+		}
+
+		resp.send({ data: updatedItem });		
 	} catch (e) {
-		return resp.status(500).send({ error_message: 'Error in Updating Item.' });
+		resp.status(400).send({ error_message: 'Error in Updating Item.' });
 	}
 });
 
@@ -84,13 +87,14 @@ router.delete('/:id', isAuthorized, async (req, resp) => {
 		const deletedItem = await Item.findById(req.params.id);
 
 		if (!deletedItem) {
-			return resp.status(500).send({ error_message: 'Error in Deleting Item.' });
+			return resp.status(404).send({ error_message: 'Item not found' });
 		}
 
 		await deletedItem.remove();
-    	return resp.send({ message: 'Item Deleted' });
+
+    	resp.send({ message: 'Item Deleted' });
 	} catch (e) {
-		return resp.status(500).send({ error_message: 'Error in Deleting Item.' });
+		resp.status(400).send({ error_message: 'Error in Deleting Item.' });
 	}
 });
 

@@ -43,7 +43,7 @@ router.post("/", async (req, resp) => {
 			email: newUser.email,
 		});
 	} else {
-		resp.status(401).send({ error_message: 'Invalid User Data.' });
+		resp.status(400).send({ error_message: 'Invalid User Data.' });
 	}
 });
 

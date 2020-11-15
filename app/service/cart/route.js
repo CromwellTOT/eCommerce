@@ -44,9 +44,9 @@ router.post("/", isAuthorized, async (req, resp) => {
 			cart = await cart.save();
 		}
 
-		return resp.status(200).send({ message: "Cart Updated" });
+		resp.status(200).send({ message: "Cart Updated" });
 	} catch (e) {
-		return resp.status(500).send({ error_message: 'Internal Error - please contact customer support' });
+		resp.status(500).send({ error_message: 'Internal Error - please contact customer support' });
 	}
 });
 
