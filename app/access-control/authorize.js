@@ -10,14 +10,14 @@ const permissionsByUserType = {
 		'/rest/item-DELETE': true,
 		// user service 
 		'/rest/user-GET': true,
-		'/rest/user-POST': true,
 		'/rest/user-PUT': true,
 	},
 	'client': {
+		// cart service
+		'/rest/cart-POST': true,
+		'/rest/cart-GET': true,
 		// user service
-		'/rest/user-POST': true,
 		'/rest/user-GET': true,
-		'/rest/user-POST': true,
 		'/rest/user-PUT': true,
 	},
 }
