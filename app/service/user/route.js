@@ -11,11 +11,11 @@ router.get("/:id", isAuthorized, async (req, resp) => {
 	try {
 		user = await User.findById(req.params.id);
 	} catch (e) {
-		return resp.status(500).send({ message: 'Internal Error - please contact customer support' });
+		return resp.status(500).send({ error_message: 'Internal Error - please contact customer support' });
 	}
 
 	if (!user) {
-		return resp.status(404).send({ message: 'User Not Found' });
+		return resp.status(404).send({ error_message: 'User Not Found' });
 	}
 
 	resp.send({
@@ -37,7 +37,7 @@ router.post("/", async (req, resp) => {
 	const newUser = await user.save();
 
 	if (newUser) {
-		resp.send({
+		resp.status(201).send({
 			_id: newUser.id,
 			name: newUser.name,
 			email: newUser.email,
@@ -47,22 +47,17 @@ router.post("/", async (req, resp) => {
 	}
 });
 
-// update user info by id
-router.put("/:id", isAuthorized, async (req, resp) => {
-	// admin can update any user, normal user can only update themself
-	if (req.user.id !== req.params.id && req.user.userType !== 'admin') {
-		return resp.status(403).send({ error_message: `Authorization failed - not allowed to update user` , });
-	}
-
+// only update your own user info is allowed 
+router.put("/", isAuthorized, async (req, resp) => {
 	let user;
 	try {
-		user = await User.findById(req.params.id);
+		user = await User.findById(req.user.id);
 	} catch (e) {
-		return resp.status(500).send({ message: 'Internal Error - please contact customer support' });
+		return resp.status(500).send({ error_message: 'Internal Error - please contact customer support' });
 	}
 
 	if (!user) {
-		return resp.status(404).send({ message: 'User Not Found' });
+		return resp.status(404).send({ error_message: 'User Not Found' });
 	}
 
 	user.name = req.body.name || user.name;

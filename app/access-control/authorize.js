@@ -4,12 +4,17 @@ const config = require('../../config');
 // todo: store this in DB
 const permissionsByUserType = {
 	'admin': {
+		// item service
 		'/rest/item-POST': true,
+		'/rest/item-PUT': true,
+		'/rest/item-DELETE': true,
+		// user service 
 		'/rest/user-GET': true,
 		'/rest/user-POST': true,
 		'/rest/user-PUT': true,
 	},
 	'client': {
+		// user service
 		'/rest/user-POST': true,
 		'/rest/user-GET': true,
 		'/rest/user-POST': true,
