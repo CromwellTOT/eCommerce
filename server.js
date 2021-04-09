@@ -30,12 +30,6 @@ app.use("/rest/user/", userService);
 app.use('/rest/cart/', cartService);
 app.use('/rest/auth/', authService);
 
-app.use(express.static(__dirname + "/public")); // use for front end file access
-
-app.get("/", function(req, resp) {
-	resp.sendFile(__dirname + "/public/main.html");
-});
-
 // started
 app.listen(config.port);
 console.log("server started");

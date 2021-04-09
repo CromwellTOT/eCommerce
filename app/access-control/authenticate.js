@@ -9,10 +9,17 @@ const router = express.Router();
 router.post("/", async (req, resp) => {
 	console.log(`user: ${req.body.email} requsts login`);
 
-	const user = await User.findOne({
-	    email: req.body.email,
-	    password: req.body.password,
-	});
+	let user;
+
+	try {
+		user = await User.findOne({
+			email: req.body.email,
+			password: req.body.password,
+		});
+	} catch (e) {
+		console.log('error', e);
+	}
+
 
 	if (user) {
 		await generateTokenAndStoreInCookie(resp, user);

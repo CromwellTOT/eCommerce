@@ -8,7 +8,8 @@ const ObjectId = require('mongoose').Types.ObjectId;
 
 // get your own cart details
 router.get("/", isAuthorized, async (req, resp) => {
-	let cart; 
+	let cart;
+
 	try {
 		cart = await Cart.findOne({user: new ObjectId(req.user.id)}).populate("items.item");
 	} catch (e) {
