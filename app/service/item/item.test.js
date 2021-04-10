@@ -1,7 +1,7 @@
 const Item = require('./model');
 const assert = require('assert').strict;
 
-describe('Item model - validation errors', () => {
+describe('Item model', () => {
     it('all fields are required', () => {
         const item = new Item({
 
@@ -39,6 +39,18 @@ describe('Item model - validation errors', () => {
 
         assert.ok(error, 'at least one validation error should be thrown');
         assert.equal(error.errors['price'].message, 'price needs to be a positive number');
+    });
+
+    it('valid input', () => {
+        const item = new Item({
+            "name": 'The Hobbit',
+            "category": "book",
+            "price": 2
+        });
+
+        const error = item.validateSync();
+
+        assert.ok(!error, 'no validation error should be thrown');
     });
 });
 

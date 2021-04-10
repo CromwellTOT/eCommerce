@@ -40,14 +40,13 @@ async function hasPermission (user, path, method) {
 		return false;
 	}
 
-	console.log(`
-		{user: ${user.name}, type: ${user.userType}} requsts authorization for {path: ${path}, method: ${method}}
-	`);
+	console.log(`{user: ${user.name}, type: ${user.userType}} requsts authorization for {path: ${path}, method: ${method}}`);
 	// permission is defined by `<path>-<method>``
 	const requestForPermissoin = path + '-' + method;
 
 	for (const permission of permissions) {
-		if (permission.accessPath === requestForPermissoin && access) {
+		if (permission.accessPath === requestForPermissoin && permission.access) {
+			console.log('access allowed!');
 			return true;
 		}
 	}

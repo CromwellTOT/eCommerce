@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
 				const emailRegex = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 				return emailRegex.test(email); // Assuming email has a text attribute
 			},
-			message: 'The e-mail field cannot be empty.'
+			message: 'Email in wrong format'
 		}
 	},
 	password: {

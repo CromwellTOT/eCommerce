@@ -5,14 +5,14 @@ const Role = require('./model');
 const isAuthorized = require('../../access-control/authorize');
 
 // get all roles
-router.get('/', async (req, resp) => {
+router.get('/', isAuthorized, async (req, resp) => {
     const roles = await Role.find();
 
     resp.send(roles);
 });
 
 // get one by id
-router.get('/:id', async (req, resp) => {
+router.get('/:id', isAuthorized, async (req, resp) => {
     const role = await Role.findOne({ _id: req.params.id });
 
     if (!role) {
