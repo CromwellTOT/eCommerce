@@ -12,6 +12,7 @@ const config = require('./config');
 const itemService = require("./app/service/item/route");
 const userService = require("./app/service/user/route");
 const cartService = require("./app/service/cart/route");
+const roleService = require("./app/service/role/route");
 const authService = require("./app/access-control/authenticate");
 
 mongoose
@@ -28,6 +29,7 @@ app.use(cookieParser());
 app.use("/rest/item/", itemService);
 app.use("/rest/user/", userService);
 app.use('/rest/cart/', cartService);
+app.use('/rest/access-user/', roleService);
 app.use('/rest/auth/', authService);
 
 // started

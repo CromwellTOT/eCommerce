@@ -1,26 +1,8 @@
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
+const _ = require('lodash');
 
-// todo: store this in DB
-const permissionsByUserType = {
-	'admin': {
-		// item service
-		'/rest/item-POST': true,
-		'/rest/item-PUT': true,
-		'/rest/item-DELETE': true,
-		// user service 
-		'/rest/user-GET': true,
-		'/rest/user-PUT': true,
-	},
-	'client': {
-		// cart service
-		'/rest/cart-POST': true,
-		'/rest/cart-GET': true,
-		// user service
-		'/rest/user-GET': true,
-		'/rest/user-PUT': true,
-	},
-}
+const Role = require('../service/role/model');
 
 const isAuthorized = async (req, resp, next) => {
 	const token = req.cookies.token || '';
@@ -32,7 +14,7 @@ const isAuthorized = async (req, resp, next) => {
 
 		const decrypt = await jwt.verify(token, config.jwt_secret); 
 
-		if (hasPermission(decrypt, req.baseUrl, req.method)) {
+		if (await hasPermission(decrypt, req.baseUrl, req.method)) {
 			req.user = {
 				id: decrypt._id,
 				email: decrypt.email,
@@ -48,8 +30,15 @@ const isAuthorized = async (req, resp, next) => {
 	}
 }
 
-function hasPermission (user, path, method) {
-	const permissions = permissionsByUserType[user.userType];
+async function hasPermission (user, path, method) {
+	const userType = { userType: user.userType };
+
+	const permissions = await Role.find({ ...userType });
+
+	if (!permissions) {
+		// no access is found for this user type
+		return false;
+	}
 
 	console.log(`
 		{user: ${user.name}, type: ${user.userType}} requsts authorization for {path: ${path}, method: ${method}}
@@ -57,11 +46,13 @@ function hasPermission (user, path, method) {
 	// permission is defined by `<path>-<method>``
 	const requestForPermissoin = path + '-' + method;
 
-	if (permissions[requestForPermissoin]) {
-		return true;
-	} else {
-		return false;
+	for (const permission of permissions) {
+		if (permission.accessPath === requestForPermissoin && access) {
+			return true;
+		}
 	}
+	// no access is found for this user type
+	return false;
 }
 
 module.exports = isAuthorized;
