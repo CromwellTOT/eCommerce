@@ -34,8 +34,6 @@ router.get('/:id', async (req, resp) => {
 
 // create a new item
 router.post('/', isAuthorized, async (req, resp) => {
-	// @todo validation
-
 	const item = new Item({
 		name: req.body.name,
 		category: req.body.category,
@@ -46,7 +44,10 @@ router.post('/', isAuthorized, async (req, resp) => {
 	try {
 		newItem = await item.save();
 	} catch (e) {
-		return resp.status(400).send({ error_message: 'Error in Creating Item.' });
+		return resp.status(400).send({
+			error_message: 'Error in Creating Item.',
+			debug_info: e.errors,
+		});
 	}
 
 	if (!newItem) {
@@ -57,29 +58,32 @@ router.post('/', isAuthorized, async (req, resp) => {
 });
 
 router.put('/:id', isAuthorized, async (req, resp) => {
-	try {
-		// @todo: validation
+	const item = await Item.findById(req.params.id);
 
-		const item = await Item.findById(req.params.id);
-
-		if (!item) {
-			return resp.status(404).send({ error_message: 'Item not found' });
-		}
-
-		item.name = req.body.name;
-		item.category = req.body.category;
-		item.price = req.body.price;
-
-		const updatedItem = await item.save();
-
-		if (!updatedItem) {
-			return resp.status(500).send({ error_message: 'Error in Updating Item.' });
-		}
-
-		resp.send({ data: updatedItem });		
-	} catch (e) {
-		resp.status(400).send({ error_message: 'Error in Updating Item.' });
+	if (!item) {
+		return resp.status(404).send({ error_message: 'Item not found' });
 	}
+
+	item.name = req.body.name;
+	item.category = req.body.category;
+	item.price = req.body.price;
+
+	let updatedItem;
+
+	try {
+		updatedItem = await item.save();
+	} catch (e) {
+		return resp.status(400).send({
+			error_message: 'Error in Updating Item.',
+			debug_info: e.errors,
+		});
+	}
+
+	if (!updatedItem) {
+		return resp.status(500).send({ error_message: 'Error in Updating Item.' });
+	}
+
+	resp.send({ data: updatedItem });
 });
 
 router.delete('/:id', isAuthorized, async (req, resp) => {

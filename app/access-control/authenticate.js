@@ -9,17 +9,10 @@ const router = express.Router();
 router.post("/", async (req, resp) => {
 	console.log(`user: ${req.body.email} requsts login`);
 
-	let user;
-
-	try {
-		user = await User.findOne({
-			email: req.body.email,
-			password: req.body.password,
-		});
-	} catch (e) {
-		console.log('error', e);
-	}
-
+	const user = await User.findOne({
+		email: req.body.email,
+		password: req.body.password,
+	});
 
 	if (user) {
 		await generateTokenAndStoreInCookie(resp, user);
@@ -36,8 +29,6 @@ router.post("/", async (req, resp) => {
 });
 
 function generateTokenAndStoreInCookie(resp, user) {
-	const expiration = 604800000; // cookie will be removed after 7 days
-
 	const token = jwt.sign({
 			_id: user._id,
 			name: user.name,
@@ -49,6 +40,8 @@ function generateTokenAndStoreInCookie(resp, user) {
 			expiresIn: '24h',
 		}
 	);
+
+	const expiration = 604800000; // cookie will be removed after 7 days
 	
 	return resp.cookie('token', token, {
 		expires: new Date(Date.now() + expiration),

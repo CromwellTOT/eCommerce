@@ -1,8 +1,8 @@
-API system "with RBAC access-control"
+API system "with RBAC"
 ===
 E-commerce version
 
-Get started
+Getting started
 ---
 1. Create `config.json` at root dir, like this
 ```JSON
@@ -15,5 +15,11 @@ Get started
 2, 
 ```sh
 > npm install
-> node server
+> npm start
+```
+
+Unit Test
+---
+```sh
+> npm test
 ```
