@@ -32,8 +32,12 @@ app.use('/rest/cart/', cartService);
 app.use('/rest/access-user/', roleService);
 app.use('/rest/auth/', authService);
 
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(`${__dirname}/frontend/index.html`);
+});
+
+app.get('/update', (req, res) => {
+    res.sendFile(`${__dirname}/frontend/updateRole.html`);
 });
 
 // started

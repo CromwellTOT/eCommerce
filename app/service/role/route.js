@@ -6,7 +6,10 @@ const isAuthorized = require('../../access-control/authorize');
 
 // get all roles
 router.get('/', isAuthorized, async (req, resp) => {
-    const roles = await Role.find();
+    // support ?category=xxx query param
+    const userType = req.query.userType ? { userType: req.query.userType } : {};
+
+    const roles = await Role.find({ ...userType });
 
     resp.send(roles);
 });

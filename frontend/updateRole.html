@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Role edit</title>
+</head>
+<body>
+<div class="container">
+    <h1 id="header"></h1>
+    <hr>
+
+    <div id="main">
+        <div class="row" id="td">
+            <div class="col-md-3">access path</div>
+            <div class="col-md-3">id</div>
+            <div class="col-md-3">status</div>
+        </div>
+    </div>
+
+    <hr>
+    <div>
+        <button id="add" type="button" class="btn btn-secondary btn-sm">add</button>
+        <button id="save" type="button" class="btn btn-secondary btn-sm">save</button>
+    </div>
+</div>
+</body>
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(async () => {
+        const url = new URL(window.location.href);
+        const userType = url.search.split('=')[1];
+
+        $("#header").text('User type: ' + userType);
+
+        const roleUrl = 'http://localhost:4444/rest/access-user';
+        const response = await fetch(roleUrl + '?userType=' + userType);
+
+        if (!response.ok) {
+            console.log(`get role ${userType} failed`, response);
+        }
+        const json = await response.json();
+        // render on the page
+        const mainElem = $('#main');
+        for (const typeObj of json) {
+            const divElem = `
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input value="${typeObj.accessPath}" class="form-control">
+                        </div>
+                        <div class="col-md-3">${typeObj._id}</div>
+                        <div class="col-md-3">
+                            <input type="checkbox" ${typeObj.access ? 'checked' : ''}>
+                        </div>
+                    </div>
+                    <br>
+                `;
+            mainElem.append(divElem);
+        }
+
+        $('#add').click(async () => {
+            const response = await fetch(roleUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "userType": userType,
+                    "accessPath": "/rest/item-GET",
+                    "access": false
+                }),
+            });
+
+            if (!response.ok) {
+                console.log(`create role failed`, response);
+            }
+            const json = await response.json();
+            const userTypeObj = json.data;
+
+            console.log(json);
+
+            const divElem = `
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <input value="${userTypeObj.accessPath}" class="form-control">
+                        </div>
+                        <div class="col-md-3">${userTypeObj._id}</div>
+                        <div class="col-md-3">
+                            <input type="checkbox" ${userTypeObj.access ? 'checked' : ''}>
+                        </div>
+                    </div>
+                    <br>
+                `;
+            mainElem.append(divElem);
+        });
+
+        $('#save').click(async () => {
+
+        });
+    });
+</script>
+</html>

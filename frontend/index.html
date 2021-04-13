@@ -9,23 +9,92 @@
 <body>
     <div class="container">
         <h1>Role management system</h1>
-        <div class="row">
-            <div class="col-md-6">First column</div>
-            <div class="col-md-6">Second column</div>
+        <hr>
+        <div id="main">
+            <div class="row" id="header">
+                <div class="col-md-3">user type</div>
+                <div class="col-md-3">actions</div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-md-3">First column</div>
-            <div class="col-md-3">Second column</div>
-            <div class="col-md-3">Third column</div>
-            <div class="col-md-3">Fourth column</div>
+        <hr>
+        <div>
+            <input id="addInput" placeholder="new user type" type="text">
+            <button id="add" type="button" class="btn btn-secondary btn-sm">add new</button>
         </div>
     </div>
 </body>
-
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- Popper JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(async () => {
+            const authUrl = 'http://localhost:4444/rest/auth';
+            const roleUrl = 'http://localhost:4444/rest/access-user';
+            // auth first -> will put the token in cookie
+            await fetch(authUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    "email": "admin",
+                    "password": "admin"
+                }),
+            });
+            // fetch all user types
+            const response = await fetch(roleUrl);
+            if (!response.ok) {
+                console.log('get roles failed', response);
+            }
+            const json = await response.json();
+            const UniqueUserTypes = new Set();
+            for (const obj of json) {
+                UniqueUserTypes.add(obj.userType);
+            }
+
+            let mainElem = $('#main');
+            for (const userType of UniqueUserTypes) {
+                const divElem = `
+                    <br>
+                    <div class="row">
+                        <div class="col-md-3">${userType}</div>
+                        <div class="col-md-3"><button type="button" class="update btn btn-secondary btn-sm">update</button></div>
+                    </div>
+                    <br>
+                `;
+                mainElem.append(divElem);
+            }
+
+            $('#add').click(async () => {
+                const newUserType = $('#addInput').val();
+
+                if(!newUserType) {
+                    return console.log('newUserType cannot be null');
+                }
+
+                await fetch(roleUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "userType": newUserType,
+                        "accessPath": "/rest/item-POST",
+                        "access": false
+                    }),
+                });
+            });
+
+            $('.update').click(async (event) => {
+                const div = $(event.target);
+                const userType = div.parent().siblings().text();
+
+                const redirectUrl = 'http://localhost:4444/update?userType=' + userType;
+                window.open(redirectUrl);
+            });
+        });
+    </script>
 </html>
