@@ -60,7 +60,6 @@
                             <input type="checkbox" ${typeObj.access ? 'checked' : ''}>
                         </div>
                     </div>
-                    <br>
                 `;
             mainElem.append(divElem);
         }
@@ -102,8 +101,32 @@
             mainElem.append(divElem);
         });
 
-        $('#save').click(async () => {
+        $('#save').click(async (event) => {
+            const divs = $('#main').children();
 
+            for (let i = 2; i < divs.length; i = i + 2) {
+                const container = $(divs[i]);
+
+                const id = container.children()[1].innerHTML;
+                const accessPath = $(container.children()[0]).children()[0].value;
+                const access = $(container.children()[2]).children()[0].checked;
+
+                const response = await fetch(roleUrl + '/' + id, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        "userType": userType,
+                        "accessPath": accessPath,
+                        "access": access
+                    }),
+                });
+
+                if (!response.ok) {
+                    console.log(`update role ${id} failed`, response);
+                }
+            }
         });
     });
 </script>
