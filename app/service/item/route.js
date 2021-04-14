@@ -5,7 +5,7 @@ const Item = require('./model');
 const isAuthorized = require('../../access-control/authorize');
 
 // get all items
-router.get('/', async (req, resp) => {
+router.get('/', isAuthorized, async (req, resp) => {
 	// support ?category=xxx query param
 	const category = req.query.category ? { category: req.query.category } : {};
 	// support ?search=xxx query param
@@ -22,7 +22,7 @@ router.get('/', async (req, resp) => {
 });
 
 // get one by id
-router.get('/:id', async (req, resp) => {
+router.get('/:id', isAuthorized, async (req, resp) => {
 	const item = await Item.findOne({ _id: req.params.id });
 
 	if (!item) {
