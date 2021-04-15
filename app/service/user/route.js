@@ -40,7 +40,6 @@ router.post("/", async (req, resp) => {
 	try {
 		newUser = await user.save();
 	} catch (e) {
-		console.log(e);
 		return resp.status(400).send({
 			error_message: 'Error in Creating new user.',
 			debug_info: e.errors,

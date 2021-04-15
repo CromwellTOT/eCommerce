@@ -37,7 +37,9 @@ userSchema.pre('save', function (next) {
 		if (role) {
 			next();
 		} else {
-			next(new Error(`userType ${userType} does not exists, please create first`));
+			next({
+				errors: `userType ${self.userType} does not exists, please create first`
+			});
 		}
 	});
 });
