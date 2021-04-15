@@ -30,10 +30,10 @@ const userSchema = new mongoose.Schema({
 	},
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
 	const self = this;
 
-	mongoose.models['role'].findOne({userType: self.userType}, (err, role) => {
+	mongoose.models['Role'].findOne({userType: self.userType}, (err, role) => {
 		if (role) {
 			next();
 		} else {

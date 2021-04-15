@@ -32,15 +32,27 @@ router.post("/", async (req, resp) => {
 		name: req.body.name,
 		email: req.body.email,
 		password: req.body.password,
+		userType: req.body.userType,
 	});
-	
-	const newUser = await user.save();
+
+	let newUser;
+
+	try {
+		newUser = await user.save();
+	} catch (e) {
+		console.log(e);
+		return resp.status(400).send({
+			error_message: 'Error in Creating new user.',
+			debug_info: e.errors,
+		});
+	}
 
 	if (newUser) {
 		resp.status(201).send({
 			_id: newUser.id,
 			name: newUser.name,
 			email: newUser.email,
+			userType: newUser.userType,
 		});
 	} else {
 		resp.status(400).send({ error_message: 'Invalid User Data.' });
@@ -63,8 +75,18 @@ router.put("/", isAuthorized, async (req, resp) => {
 	user.name = req.body.name || user.name;
 	user.email = req.body.email || user.email;
 	user.password = req.body.password || user.password;
+	user.userType= req.body.userType || user.userType;
 
-	const updatedUser = await user.save();	
+	let updatedUser;
+
+	try {
+		updatedUser = await user.save();
+	} catch (e) {
+		return resp.status(400).send({
+			error_message: 'Error in Updating new user.',
+			debug_info: e.errors,
+		});
+	}
 
 	resp.send({
 		_id: updatedUser.id,
